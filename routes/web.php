@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\API\API;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\TempatController;
 use App\Http\Controllers\WisataController;
@@ -357,6 +358,12 @@ Route::group([
 
 ], function () {
 });
+
+Route::prefix('api')->group(function () {
+    Route::get('/wahana', [API::class, 'wahana']);
+    Route::get('/desa', [API::class, 'desa']);
+});
+
 Route::get('/kategorievent', [App\Http\Controllers\EventController::class, 'index']);
 Route::post('/kategorievent/create', [App\Http\Controllers\EventController::class, 'create_kategorievent']);
 Route::post('/kategorievent/{id}/edit', [App\Http\Controllers\EventController::class, 'edit_kategorievent']);
