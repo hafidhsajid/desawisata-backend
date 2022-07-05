@@ -21,13 +21,13 @@ class API extends Controller
         return response()->json($wahana);
     }
 
-    public function createwahana()
+    public function createwahana(Request $request)
     {
         $wahana  = new Wahana();
-        $wahana->name = "name test";
-        $wahana->tempat_id = "4";
-        $wahana->deskripsi = "deskripsi test";
-        $wahana->harga = "19999";
+        $wahana->name = $request->name;
+        $wahana->tempat_id = $request->tempat_id;
+        $wahana->deskripsi = $request->deskripsi;
+        $wahana->harga = $request->harga;
         $wahana->image = '7Lc8xmt78n8teJXlDUgvlOrJDVSBt4BBtDhSt2Xh.jpg';
         if ($wahana->save()) {
             return response()->json(array('data'=>'Success'));
@@ -39,10 +39,10 @@ class API extends Controller
     {
         // dd($request->id);
         $wahana  = wahana::find($request->id);
-        $wahana->name = "edit test";
-        $wahana->tempat_id = "4";
-        $wahana->deskripsi = "deskripsi test";
-        $wahana->harga = "2222";
+        $wahana->name = $request->name;
+        $wahana->tempat_id = $request->tempat_id;
+        $wahana->deskripsi = $request->deskripsi;
+        $wahana->harga = $request->harga;
         $wahana->image = '7Lc8xmt78n8teJXlDUgvlOrJDVSBt4BBtDhSt2Xh.jpg';
         if ($wahana->save()) {
             return response()->json(array('data'=>'Success'));
