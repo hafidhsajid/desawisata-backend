@@ -359,11 +359,23 @@ Route::resource('/pay', PaymentController::class);
 // ], function () {
 // });
 
+
 Route::prefix('api')->group(function () {
-    Route::get('/kuliner', [API::class, 'kuliner']);
     Route::get('/wahana', [API::class, 'wahana']);
+    Route::post('/wahana/create', [API::class, 'createwahana']);
+    Route::post('/wahana/update', [API::class, 'editwahana']);
+    Route::post('/wahana/delete', [API::class, 'deletewahana']);
+
+
+    Route::get('/event', [API::class, 'event']);
+    Route::get('/kamar', [API::class, 'kamar']);
+    Route::get('/kuliner', [API::class, 'kuliner']);
     Route::get('/desa', [API::class, 'desa']);
+    Route::get('/user', [API::class, 'user']);
+    Route::get('/login', [API::class, 'login']);
+    Route::post('/login', [API::class, 'login']);
 });
+
 
 // Route::get('/kategorievent', [App\Http\Controllers\EventController::class, 'index']);
 // Route::post('/kategorievent/create', [App\Http\Controllers\EventController::class, 'create_kategorievent']);
