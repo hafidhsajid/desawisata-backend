@@ -360,6 +360,7 @@ Route::resource('/pay', PaymentController::class);
 // });
 
 Route::prefix('api')->group(function () {
+    Route::get('/kuliner', [API::class, 'kuliner']);
     Route::get('/wahana', [API::class, 'wahana']);
     Route::get('/desa', [API::class, 'desa']);
 });
