@@ -10,6 +10,7 @@ use App\Models\Kuliner;
 use App\Models\User;
 use App\Models\Wahana;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class API extends Controller
 {
@@ -43,7 +44,7 @@ class API extends Controller
         $wahana->tempat_id = $request->tempat_id;
         $wahana->deskripsi = $request->deskripsi;
         $wahana->harga = $request->harga;
-        $wahana->image = '7Lc8xmt78n8teJXlDUgvlOrJDVSBt4BBtDhSt2Xh.jpg';
+        // $wahana->image = '7Lc8xmt78n8teJXlDUgvlOrJDVSBt4BBtDhSt2Xh.jpg';
         if ($wahana->save()) {
             return response()->json(array('data'=>'Success'));
         }else{
@@ -90,12 +91,28 @@ class API extends Controller
     }
     public function login(Request $request)
     {
-        // dd($request->email);
         $login = User::where('email',$request->email)->first();
         if ($login!=null) {
-            return response()->json(array('data'=>$login));
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                return response()->json(['data'=>$login]);
+            } else {
+                return response()->json(['data'=>'Failed Login'],401);
+            }
+
         }else{
-            return response()->json(array('data'=>'Email not found'));
+            return response()->json(['data'=>'Email not found'],401);
         }
+    }
+    public function checkLogin()
+    {
+        $check = Auth::check();
+        return response()->json(['data'=>$check]);
+    }
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+
+        return response()->json(array('data'=>'Loggedout'));
     }
 }

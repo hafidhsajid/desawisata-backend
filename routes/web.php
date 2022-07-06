@@ -208,7 +208,7 @@ Route::resource('/pay', PaymentController::class);
 
 //     Route::resource('/admin', AdminController::class);
 //     Route::resource('/pelanggan', PelangganController::class);
-//     Route::resource('/tempat', TempatController::class);
+    // Route::resource('/tempat', TempatController::class);
 //     Route::resource('/pesananc', PesananController::class);
 //     Route::resource('/setting', SettingController::class);
 
@@ -372,8 +372,9 @@ Route::prefix('api')->group(function () {
     Route::get('/kuliner', [API::class, 'kuliner']);
     Route::get('/desa', [API::class, 'desa']);
     Route::get('/user', [API::class, 'user']);
-    Route::get('/login', [API::class, 'login']);
+    Route::get('/login', [API::class, 'checkLogin']);
     Route::post('/login', [API::class, 'login']);
+    Route::get('/logout', [API::class, 'logout']);
 });
 
 
