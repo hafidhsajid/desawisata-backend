@@ -208,7 +208,7 @@ Route::resource('/pay', PaymentController::class);
 
 //     Route::resource('/admin', AdminController::class);
 //     Route::resource('/pelanggan', PelangganController::class);
-    // Route::resource('/tempat', TempatController::class);
+//     Route::resource('/tempat', TempatController::class);
 //     Route::resource('/pesananc', PesananController::class);
 //     Route::resource('/setting', SettingController::class);
 
@@ -365,6 +365,13 @@ Route::prefix('api')->group(function () {
     Route::post('/wahana/create', [API::class, 'createwahana']);
     Route::post('/wahana/update', [API::class, 'editwahana']);
     Route::post('/wahana/delete', [API::class, 'deletewahana']);
+
+    Route::get('/cart', [API::class, 'getCart']);
+    Route::post('/cart/tambah', [API::class, 'addCart']);
+
+    Route::get('/pesananku', [API::class, 'getPesanan']);
+    Route::get('/tiket', [API::class, 'getPesanan']);
+    Route::get('/daftartransaksi', [API::class, 'getTransaksi']);
 
 
     Route::get('/event', [API::class, 'event']);

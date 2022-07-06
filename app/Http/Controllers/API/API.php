@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Detail_transaksi;
 use App\Models\Event;
 use App\Models\EventBooking;
 use App\Models\Kamar;
 use App\Models\Kuliner;
+use App\Models\Tiket;
 use App\Models\User;
 use App\Models\Wahana;
 use Illuminate\Http\Request;
@@ -50,8 +52,6 @@ class API extends Controller
         }else{
             return response()->json(array('data'=>'Failed create'));
         }
-        // $wahana  = $wahana->get();
-        // return response()->json($wahana);
     }
     public function deletewahana(Request $request)
     {
@@ -88,6 +88,64 @@ class API extends Controller
         $user = new User();
         $user = $user->get();
         return response()->json($user);
+    }
+    public function getCart()
+    {
+        if (Auth::check()) {
+            $cart = session('cart');
+            return response()->json($cart);
+
+        } else {
+            return response()->json(['data'=>'Login First'],401);
+        }
+
+    }
+    public function addCart(Request $request)
+    {
+        $cart = session("cart");
+        $kode = "W001";
+        $request->tempat_id = 4;
+        $request->durasi = 1;
+        $request->kategori = "wahana";
+        $produk = Wahana::where('kode_wahana', $kode)->first();
+        $cart[$kode] = [
+            "kode_produk" => $produk->kode,
+            "kategori" => $request->kategori,
+            "durasi" => "1",
+            "user_id" => $request->user_id,
+            "nama_produk" =>  "Tiket Wahana " . $produk->name,
+            "harga_produk" => $produk->harga,
+            "jumlah" => $request->jumlah,
+            "tanggal_a" => "0",
+            "tanggal_b" => "0",
+            "tempat_id" => $request->tempat_id,
+
+        ];
+        // dd($cart);
+        session(["cart" => $cart]);
+        return response()->json(['data'=>' Berhasil menambahkan ke cart :)']);
+    }
+    public function getTransaksi()
+    {
+        if (Auth::check()) {
+            $transaksi = Detail_transaksi::where('user_id', Auth::user()->id)->get();
+            return response()->json($transaksi);
+
+        } else {
+            return response()->json(['data'=>'Login First'],401);
+        }
+
+    }
+    public function getPesanan()
+    {
+        if (Auth::check()) {
+            $tiket = Tiket::where('user_id', Auth::user()->id)->get();
+            return response()->json($tiket);
+
+        } else {
+            return response()->json(['data'=>'Login First'],401);
+        }
+
     }
     public function login(Request $request)
     {
