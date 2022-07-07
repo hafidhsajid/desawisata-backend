@@ -13,6 +13,9 @@ use App\Models\User;
 use App\Models\Wahana;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class API extends Controller
 {
@@ -89,9 +92,9 @@ class API extends Controller
         $user = $user->get();
         return response()->json($user);
     }
-    public function getCart()
+    public function getCart(Request $request)
     {
-        if (Auth::check()) {
+        if ($request->id!=null) {
             $cart = session('cart');
             return response()->json($cart);
 
@@ -125,9 +128,9 @@ class API extends Controller
         session(["cart" => $cart]);
         return response()->json(['data'=>' Berhasil menambahkan ke cart :)']);
     }
-    public function getTransaksi()
+    public function getTransaksi(Request $request)
     {
-        if (Auth::check()) {
+        if ($request->id!=null) {
             $transaksi = Detail_transaksi::where('user_id', Auth::user()->id)->get();
             return response()->json($transaksi);
 
@@ -136,10 +139,11 @@ class API extends Controller
         }
 
     }
-    public function getPesanan()
+    public function getPesanan(Request $request)
     {
-        if (Auth::check()) {
+        if ($request->id!=null) {
             $tiket = Tiket::where('user_id', Auth::user()->id)->get();
+            // $accessToken = auth()->user()->createToken('authToken')->accessToken;
             return response()->json($tiket);
 
         } else {
@@ -152,7 +156,9 @@ class API extends Controller
         $login = User::where('email',$request->email)->first();
         if ($login!=null) {
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-                return response()->json(['data'=>$login]);
+                // $token = $user->createToken($signInRequest->input('device_name'))->plainTextToken;
+                $token = $login->createToken('authToken')->accessToken;
+                return response()->json(['data'=>$login,'token' => $token]);
             } else {
                 return response()->json(['data'=>'Failed Login'],401);
             }
