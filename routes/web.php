@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\API\API;
+use App\Http\Controllers\API\AUTHCONTROLLER;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\TempatController;
 use App\Http\Controllers\WisataController;
@@ -67,141 +68,141 @@ Route::resource('/pay', PaymentController::class);
 
 
 // // Route::resource('/bayar', [PaymentController::class, 'bayar']);
-// Route::get('/getevent', [App\Http\Controllers\FullCalendarController::class, 'getEvent']);
-// Route::post('/createevent', [App\Http\Controllers\FullCalendarController::class, 'createEvent']);
-// Route::post('/deleteevent',  [App\Http\Controllers\FullCalendarController::class, 'deleteEvent']);
-// Route::get('/full-calender', [App\Http\Controllers\FullCalendarController::class, 'index']);
-// Route::post('/full-calender/action', [App\Http\Controllers\FullCalendarController::class, 'action']);
+Route::get('/getevent', [App\Http\Controllers\FullCalendarController::class, 'getEvent']);
+Route::post('/createevent', [App\Http\Controllers\FullCalendarController::class, 'createEvent']);
+Route::post('/deleteevent',  [App\Http\Controllers\FullCalendarController::class, 'deleteEvent']);
+Route::get('/full-calender', [App\Http\Controllers\FullCalendarController::class, 'index']);
+Route::post('/full-calender/action', [App\Http\Controllers\FullCalendarController::class, 'action']);
 
-// //=====================================
+//=====================================
 
-// Route::get('/desa/{slug}', [FrontendController::class, 'tempatshow'])->name('front.showd');
-// Route::get('/wisata/{slug}', [FrontendController::class, 'tempatshow'])->name('front.showw');
-// Route::get('/hotel/{slug}', [FrontendController::class, 'tempatshow'])->name('front.showh');
-// Route::get('/kuliner/{slug}', [FrontendController::class, 'tempatshow'])->name('front.showk');
-// // Route::get('/{kategori}/{slug}', [FrontendController::class, 'tempatshow'])->name('front.show');
-// // Route::get('/wahana/{name}', [FrontendController::class, 'wahanashow'])->name('wahana.show');
-// Route::post('/tiket/{name}', [TiketController::class, 'beli'])->name('tiket.beli');
-// Route::get('/logout2', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout2');
+Route::get('/desa/{slug}', [FrontendController::class, 'tempatshow'])->name('front.showd');
+Route::get('/wisata/{slug}', [FrontendController::class, 'tempatshow'])->name('front.showw');
+Route::get('/hotel/{slug}', [FrontendController::class, 'tempatshow'])->name('front.showh');
+Route::get('/kuliner/{slug}', [FrontendController::class, 'tempatshow'])->name('front.showk');
+// Route::get('/{kategori}/{slug}', [FrontendController::class, 'tempatshow'])->name('front.show');
+// Route::get('/wahana/{name}', [FrontendController::class, 'wahanashow'])->name('wahana.show');
+Route::post('/tiket/{name}', [TiketController::class, 'beli'])->name('tiket.beli');
+Route::get('/logout2', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout2');
 
-// // Route::get('/pesananku', [App\Http\Controllers\HomeController::class, 'pesananku'])->name('pesananku');
+// Route::get('/pesananku', [App\Http\Controllers\HomeController::class, 'pesananku'])->name('pesananku');
 
-// // ===================================
-// //Pembayaran Midrrans
-// Route::get('/bayar', [PaymentController::class, 'index']);
-// Route::get('/bayar/{id}', [PaymentController::class, 'bayar']);
-// Route::post('/bayar/{id}', [PaymentController::class, 'bayar']);
-// Route::get('/bayar/snapfinish', [PaymentController::class, 'finish']);
-// Route::post('/bayar/snapfinish/store', [PaymentController::class, 'store'])->name('payment.store');
-
-
-// Route::get('/bayar/status/{kode}', [PaymentController::class, 'status'])->name('bayar_status');
-// Route::post('/bayar/status/update/{kode}', [PaymentController::class, 'update'])->name('payment.update');
-// Route::post('/bayar/cancel/{kode}', [PaymentController::class, 'cancel'])->name('payment.cancel');
-// // Route::get('/bayar/cancel/{kode}', [PaymentController::class, 'cancel']);
-// // Route::post('/bayar/status/{kode}', [PaymentController::class, 'store2'])->name('bayar_store');
-
-// Route::get('/bayar/astatus/{kode}', [PaymentController::class, 'astatus'])->name('admin_bayar_status');
-// //====================================
-// // Route::get('/checkpenginapan', [FrontendController::class, 'checkpenginapan'])->name('checkp.index');
-// Route::get('/checkpenginapan/{id}', [FrontendController::class, 'checkpenginapan']);
-// Route::post('/checkpenginapan/{id}', [FrontendController::class, 'checkpenginapan']);
-// // Route::get('/vtweb', [App\Http\Controllers\VtwebController::class, 'vtweb']);
-// // Route::get('/bayarr/{id}', [App\Http\Controllers\VtwebController::class, 'bayar']);
-
-// // Route::get('/vtdirect', [App\Http\Controllers\VtdirectController::class, 'vtdirect']);
-// // Route::post('/vtdirect', [App\Http\Controllers\VtdirectController::class, 'checkout_process']);
+// ===================================
+//Pembayaran Midrrans
+Route::get('/bayar', [PaymentController::class, 'index']);
+Route::get('/bayar/{id}', [PaymentController::class, 'bayar']);
+Route::post('/bayar/{id}', [PaymentController::class, 'bayar']);
+Route::get('/bayar/snapfinish', [PaymentController::class, 'finish']);
+Route::post('/bayar/snapfinish/store', [PaymentController::class, 'store'])->name('payment.store');
 
 
-// // Route::post('/vt_notif', [App\Http\Controllers\VtwebController::class, 'notification']);
+Route::get('/bayar/status/{kode}', [PaymentController::class, 'status'])->name('bayar_status');
+Route::post('/bayar/status/update/{kode}', [PaymentController::class, 'update'])->name('payment.update');
+Route::post('/bayar/cancel/{kode}', [PaymentController::class, 'cancel'])->name('payment.cancel');
+// Route::get('/bayar/cancel/{kode}', [PaymentController::class, 'cancel']);
+// Route::post('/bayar/status/{kode}', [PaymentController::class, 'store2'])->name('bayar_store');
 
-// // // Route::get('/snap', [App\Http\Controllers\SnapController::class, 'snap']);
+Route::get('/bayar/astatus/{kode}', [PaymentController::class, 'astatus'])->name('admin_bayar_status');
+//====================================
+// Route::get('/checkpenginapan', [FrontendController::class, 'checkpenginapan'])->name('checkp.index');
+Route::get('/checkpenginapan/{id}', [FrontendController::class, 'checkpenginapan']);
+Route::post('/checkpenginapan/{id}', [FrontendController::class, 'checkpenginapan']);
+// Route::get('/vtweb', [App\Http\Controllers\VtwebController::class, 'vtweb']);
+// Route::get('/bayarr/{id}', [App\Http\Controllers\VtwebController::class, 'bayar']);
+
+// Route::get('/vtdirect', [App\Http\Controllers\VtdirectController::class, 'vtdirect']);
+// Route::post('/vtdirect', [App\Http\Controllers\VtdirectController::class, 'checkout_process']);
+
+
+// Route::post('/vt_notif', [App\Http\Controllers\VtwebController::class, 'notification']);
+
 // // Route::get('/snap', [App\Http\Controllers\SnapController::class, 'snap']);
+// Route::get('/snap', [App\Http\Controllers\SnapController::class, 'snap']);
 
 
-// // // Route::get('/snap/{id}', [App\Http\Controllers\SnapController::class, 'snap']);
-// // Route::get('/snaptoken',  [App\Http\Controllers\SnapController::class, 'token']);
-// // Route::post('/snapfinish',  [App\Http\Controllers\SnapController::class, 'finish']);
+// // Route::get('/snap/{id}', [App\Http\Controllers\SnapController::class, 'snap']);
+// Route::get('/snaptoken',  [App\Http\Controllers\SnapController::class, 'token']);
+// Route::post('/snapfinish',  [App\Http\Controllers\SnapController::class, 'finish']);
 
-// Route::get('/mau/nginap', [App\Http\Controllers\FrontendController::class, 'pilihkamar'])->name('pilih.kamar');
-// Route::post('/mau/nginap/pesan', [App\Http\Controllers\FrontendController::class, 'pesankamar'])->name('pesan.kamar');
-// Route::get('/mau/nginap/pesan', [App\Http\Controllers\FrontendController::class, 'pesankamar']);
-// // Cek
-// // Route::get('/vt_transaction',  [App\Http\Controllers\TransactionController::class, 'transaction']);
+Route::get('/mau/nginap', [App\Http\Controllers\FrontendController::class, 'pilihkamar'])->name('pilih.kamar');
+Route::post('/mau/nginap/pesan', [App\Http\Controllers\FrontendController::class, 'pesankamar'])->name('pesan.kamar');
+Route::get('/mau/nginap/pesan', [App\Http\Controllers\FrontendController::class, 'pesankamar']);
+// Cek
 // Route::get('/vt_transaction',  [App\Http\Controllers\TransactionController::class, 'transaction']);
-// Route::post('/vt_transaction', [App\Http\Controllers\TransactionController::class, 'transaction_process']);
+Route::get('/vt_transaction',  [App\Http\Controllers\TransactionController::class, 'transaction']);
+Route::post('/vt_transaction', [App\Http\Controllers\TransactionController::class, 'transaction_process']);
 
-// Route::get('crop-image-upload',  [App\Http\Controllers\CropImageController::class, 'editgambar']);
-// Route::get('crop-image-upload2',  [App\Http\Controllers\CropImageController::class, 'editgambar2']);
-// Route::get('video-upload',  [App\Http\Controllers\TempatController::class, 'indexvideo']);
-// Route::any('video-upload2',  [App\Http\Controllers\TempatController::class, 'videoupload'])->name('video-upload2');
+Route::get('crop-image-upload',  [App\Http\Controllers\CropImageController::class, 'editgambar']);
+Route::get('crop-image-upload2',  [App\Http\Controllers\CropImageController::class, 'editgambar2']);
+Route::get('video-upload',  [App\Http\Controllers\TempatController::class, 'indexvideo']);
+Route::any('video-upload2',  [App\Http\Controllers\TempatController::class, 'videoupload'])->name('video-upload2');
 
-// Route::post('crop-image-before-upload-using-croppie', [App\Http\Controllers\CropImageController::class, 'uploadCropImage2'])->name('croppie.upload-image');
+Route::post('crop-image-before-upload-using-croppie', [App\Http\Controllers\CropImageController::class, 'uploadCropImage2'])->name('croppie.upload-image');
 
-// Route::resource('/kegiatan', KegiatanController::class);
-// Route::get('/status/update/kegiatan/{kode}', [KegiatanController::class, 'toggleStatus'])->name('update.status.kegiatan');
+Route::resource('/kegiatan', KegiatanController::class);
+Route::get('/status/update/kegiatan/{kode}', [KegiatanController::class, 'toggleStatus'])->name('update.status.kegiatan');
 
-// Route::group([
-//     'middleware' => ['auth', 'pelanggan'],
-// ], function () {
+Route::group([
+    'middleware' => ['auth', 'pelanggan'],
+], function () {
 
-//     Route::get('/mau/camping/{id}', [App\Http\Controllers\FrontendController::class, 'maucamping'])->name('mau.camping');
-//     Route::post('/mau/camping/pesan', [App\Http\Controllers\FrontendController::class, 'pesancamping'])->name('pesan.camping');
-//     Route::get('/my-tiket/print/{kode}', [App\Http\Controllers\FrontendController::class, 'print']);
-//     Route::post('/my-tiket/print/{kode}', [App\Http\Controllers\FrontendController::class, 'print'])->name('print.tiket');
-
-
-//     Route::get('/pesananku', [App\Http\Controllers\PaymentController::class, 'pesananku'])->name('pesananku');
-//     Route::get('/pesanan/detail/{kode}', [App\Http\Controllers\PaymentController::class, 'pesananku_detail']);
-//     Route::get('/pesanan/all', [App\Http\Controllers\PaymentController::class, 'pesananku_all']);
-
-//     Route::get('/cart', [TiketController::class, 'cart'])->name('cart');
-//     // Route::get('/cartc', [TiketController::class, 'cartc'])->name('cart');
-//     Route::get('/cart/tambah/{kode}', [TiketController::class, 'do_tambah_cart'])->where("id", "[0-9]+");
-//     Route::post('/cart/tambah/{kode}', [TiketController::class, 'do_tambah_cart'])->where("id", "[0-9]+");
-
-//     Route::post('/cart/tambah/camp/{kode}', [TiketController::class, 'do_tambah_cart_camp'])->where("id", "[0-9]+");
-
-//     Route::get('/cart/tambah/camp/{kode}', [TiketController::class, 'do_tambah_cart_camp'])->where("id", "[0-9]+");
-//     Route::post('/cart/tambah/tiket/{id}', [TiketController::class, 'do_tambah_cart_tiket'])->where("id", "[0-9]+");
-//     Route::get('/cart/tambah/tiket/{id}', [TiketController::class, 'do_tambah_cart_tiket'])->where("id", "[0-9]+");
-
-//     Route::get('/cart/hapus/{kode}', [TiketController::class, 'do_hapus_cart'])->where("id", "[0-9]+");
-//     Route::get('/cart/hapus/camping/{kode}', [TiketController::class, 'do_hapus_cart_camping'])->where("id", "[0-9]+");
-
-//     Route::get('/transaksi/tambah', [TiketController::class, 'do_tambah_transaksi']);
-//     Route::post('/transaksi/tambah', [TiketController::class, 'do_tambah_transaksi']);
-//     Route::delete('/transaksi/batal/{kode}', [TiketController::class, 'do_batal_transaksi'])->name('transaksi.batal');
-
-//     Route::get('/cart/kuliner', [TiketController::class, 'cart_kuliner'])->name('cart.kuliner');
-//     Route::post('/cart/tambah/kuliner/{kode}', [TiketController::class, 'do_tambah_kuliner'])->where("id", "[0-9]+");
-//     Route::get('/cart/tambah/kuliner/{kode}', [TiketController::class, 'do_tambah_kuliner'])->where("id", "[0-9]+");
-//     Route::get('/cart/hapus/kuliner/{kode}', [TiketController::class, 'do_hapus_cart_kuliner'])->where("id", "[0-9]+");
-//     Route::get('/transaksi/tambah/kuliner', [TiketController::class, 'do_tambah_transaksi_kuliner'])->name('tambah.kuliner');
-//     Route::post('/transaksi/tambah/kuliner', [TiketController::class, 'do_tambah_transaksi_kuliner']);
-
-//     Route::get('/cart/camping', [TiketController::class, 'cart_camping'])->name('cart.camping');
-//     Route::post('/pilihcamping/{id}', [FrontendController::class, 'pilihcamping'])->where("id", "[0-9]+");
-//     Route::get('/pilihcamping/2/{id}', [FrontendController::class, 'pilihcamping2'])->where("id", "[0-9]+");
-//     Route::post('/pilihcamping/2/{id}', [FrontendController::class, 'pilihcamping2'])->where("id", "[0-9]+");
-//     Route::get('/transaksi/tambah/camping', [TiketController::class, 'do_tambah_transaksi_camping'])->name('tambah.camping');
-//     Route::post('/transaksi/tambah/camping', [TiketController::class, 'do_tambah_transaksi_camping']);
-
-//     Route::get('/cart/booking', [FrontendController::class, 'cart_booking'])->name('cart.booking');
-//     Route::post('/penginapanpesan/{kode}', [FrontendController::class, 'cart_tambah_booking'])->where("id", "[0-9]+");
-//     Route::get('/transaksi/tambah/booking', [TiketController::class, 'do_tambah_transaksi_booking'])->name('tambah.booking');
-//     Route::post('/transaksi/tambah/booking', [TiketController::class, 'do_tambah_transaksi_booking']);
-
-//     Route::post('/transaksi/event', [TiketController::class, 'do_tambah_transaksi_event'])->name('ikut.event');
-// });
+    Route::get('/mau/camping/{id}', [App\Http\Controllers\FrontendController::class, 'maucamping'])->name('mau.camping');
+    Route::post('/mau/camping/pesan', [App\Http\Controllers\FrontendController::class, 'pesancamping'])->name('pesan.camping');
+    Route::get('/my-tiket/print/{kode}', [App\Http\Controllers\FrontendController::class, 'print']);
+    Route::post('/my-tiket/print/{kode}', [App\Http\Controllers\FrontendController::class, 'print'])->name('print.tiket');
 
 
-// Route::group([
-//     'middleware' => ['auth', 'admin'],
-//     'prefix' => 'admin',
+    Route::get('/pesananku', [App\Http\Controllers\PaymentController::class, 'pesananku'])->name('pesananku');
+    Route::get('/pesanan/detail/{kode}', [App\Http\Controllers\PaymentController::class, 'pesananku_detail']);
+    Route::get('/pesanan/all', [App\Http\Controllers\PaymentController::class, 'pesananku_all']);
 
-// ], function () {
-//     //  => CRUD Admin
+    Route::get('/cart', [TiketController::class, 'cart'])->name('cart');
+    // Route::get('/cartc', [TiketController::class, 'cartc'])->name('cart');
+    Route::get('/cart/tambah/{kode}', [TiketController::class, 'do_tambah_cart'])->where("id", "[0-9]+");
+    Route::post('/cart/tambah/{kode}', [TiketController::class, 'do_tambah_cart'])->where("id", "[0-9]+");
+
+    Route::post('/cart/tambah/camp/{kode}', [TiketController::class, 'do_tambah_cart_camp'])->where("id", "[0-9]+");
+
+    Route::get('/cart/tambah/camp/{kode}', [TiketController::class, 'do_tambah_cart_camp'])->where("id", "[0-9]+");
+    Route::post('/cart/tambah/tiket/{id}', [TiketController::class, 'do_tambah_cart_tiket'])->where("id", "[0-9]+");
+    Route::get('/cart/tambah/tiket/{id}', [TiketController::class, 'do_tambah_cart_tiket'])->where("id", "[0-9]+");
+
+    Route::get('/cart/hapus/{kode}', [TiketController::class, 'do_hapus_cart'])->where("id", "[0-9]+");
+    Route::get('/cart/hapus/camping/{kode}', [TiketController::class, 'do_hapus_cart_camping'])->where("id", "[0-9]+");
+
+    Route::get('/transaksi/tambah', [TiketController::class, 'do_tambah_transaksi']);
+    Route::post('/transaksi/tambah', [TiketController::class, 'do_tambah_transaksi']);
+    Route::delete('/transaksi/batal/{kode}', [TiketController::class, 'do_batal_transaksi'])->name('transaksi.batal');
+
+    Route::get('/cart/kuliner', [TiketController::class, 'cart_kuliner'])->name('cart.kuliner');
+    Route::post('/cart/tambah/kuliner/{kode}', [TiketController::class, 'do_tambah_kuliner'])->where("id", "[0-9]+");
+    Route::get('/cart/tambah/kuliner/{kode}', [TiketController::class, 'do_tambah_kuliner'])->where("id", "[0-9]+");
+    Route::get('/cart/hapus/kuliner/{kode}', [TiketController::class, 'do_hapus_cart_kuliner'])->where("id", "[0-9]+");
+    Route::get('/transaksi/tambah/kuliner', [TiketController::class, 'do_tambah_transaksi_kuliner'])->name('tambah.kuliner');
+    Route::post('/transaksi/tambah/kuliner', [TiketController::class, 'do_tambah_transaksi_kuliner']);
+
+    Route::get('/cart/camping', [TiketController::class, 'cart_camping'])->name('cart.camping');
+    Route::post('/pilihcamping/{id}', [FrontendController::class, 'pilihcamping'])->where("id", "[0-9]+");
+    Route::get('/pilihcamping/2/{id}', [FrontendController::class, 'pilihcamping2'])->where("id", "[0-9]+");
+    Route::post('/pilihcamping/2/{id}', [FrontendController::class, 'pilihcamping2'])->where("id", "[0-9]+");
+    Route::get('/transaksi/tambah/camping', [TiketController::class, 'do_tambah_transaksi_camping'])->name('tambah.camping');
+    Route::post('/transaksi/tambah/camping', [TiketController::class, 'do_tambah_transaksi_camping']);
+
+    Route::get('/cart/booking', [FrontendController::class, 'cart_booking'])->name('cart.booking');
+    Route::post('/penginapanpesan/{kode}', [FrontendController::class, 'cart_tambah_booking'])->where("id", "[0-9]+");
+    Route::get('/transaksi/tambah/booking', [TiketController::class, 'do_tambah_transaksi_booking'])->name('tambah.booking');
+    Route::post('/transaksi/tambah/booking', [TiketController::class, 'do_tambah_transaksi_booking']);
+
+    Route::post('/transaksi/event', [TiketController::class, 'do_tambah_transaksi_event'])->name('ikut.event');
+});
+
+
+Route::group([
+    'middleware' => ['auth', 'admin'],
+    'prefix' => 'admin',
+
+], function () {
+    //  => CRUD Admin
 //     // Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.index');
 //     // Route::get('/admin/edit', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.edit');
 //     // Route::resource('admin', 'AdminController');
