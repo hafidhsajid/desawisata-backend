@@ -131,7 +131,7 @@ class API extends Controller
     public function getTransaksi(Request $request)
     {
         if ($request->id!=null) {
-            $transaksi = Detail_transaksi::where('user_id', Auth::user()->id)->get();
+            $transaksi = Detail_transaksi::where('user_id', $request->id)->get();
             return response()->json($transaksi);
 
         } else {
@@ -142,7 +142,7 @@ class API extends Controller
     public function getPesanan(Request $request)
     {
         if ($request->id!=null) {
-            $tiket = Tiket::where('user_id', Auth::user()->id)->get();
+            $tiket = Tiket::where('user_id', $request->id)->get();
             // $accessToken = auth()->user()->createToken('authToken')->accessToken;
             return response()->json($tiket);
 
