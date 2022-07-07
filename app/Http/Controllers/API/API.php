@@ -157,8 +157,8 @@ class API extends Controller
         if ($login!=null) {
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
                 // $token = $user->createToken($signInRequest->input('device_name'))->plainTextToken;
-                $token = $login->createToken('authToken')->accessToken;
-                return response()->json(['data'=>$login,'token' => $token]);
+                // $token = $login->createToken('authToken')->accessToken;
+                return response()->json(['data'=>$login]);
             } else {
                 return response()->json(['data'=>'Failed Login'],401);
             }
