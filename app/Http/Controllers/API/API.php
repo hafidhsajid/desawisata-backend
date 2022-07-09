@@ -29,6 +29,15 @@ class API extends Controller
 
     public function createwahana(Request $request)
     {
+        if(
+            $request->name == null||
+            $request->tempat_id == null ||
+            $request->deskripsi == null ||
+            $request->harga == null
+        ){
+            return response()->json(array('data'=>'Failed create'));
+
+        }
         $wahana  = new Wahana();
         $wahana->name = $request->name;
         $wahana->tempat_id = $request->tempat_id;
@@ -43,7 +52,15 @@ class API extends Controller
     }
     public function editwahana(Request $request)
     {
-        // dd($request->id);
+        if(
+            $request->name == null||
+            $request->tempat_id == null ||
+            $request->deskripsi == null ||
+            $request->harga == null
+        ){
+            return response()->json(array('data'=>'Failed update'));
+
+        }
         $wahana  = wahana::find($request->id);
         $wahana->name = $request->name;
         $wahana->tempat_id = $request->tempat_id;
@@ -53,7 +70,7 @@ class API extends Controller
         if ($wahana->save()) {
             return response()->json(array('data'=>'Success'));
         }else{
-            return response()->json(array('data'=>'Failed create'));
+            return response()->json(array('data'=>'Failed update'));
         }
     }
     public function deletewahana(Request $request)
@@ -138,6 +155,55 @@ class API extends Controller
             return response()->json(['data'=>'Login First'],401);
         }
 
+    }
+    public function createTransaksi(Request $request)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $cart = session("cart");
+        // $kuliner = session("kuliner");
+        // dd($cart);
+        $data = Tiket::max('id');
+        $urutan = (int)($data);
+        $urutan++;
+        $huruf =  "LT-";
+        $checkout_kode = $huruf . $urutan . uniqid();
+        // dd($request->date);
+
+        // dd($cart);
+        $tiket = Tiket::where('user_id', Auth::user()->id)->orderby('id', 'desc')->get();
+        $grandtotal = 0;
+        // $tempatsesi = session("tempatsesi");
+
+        foreach ($cart as $ct => $val) {
+
+            $kode_tiket = $checkout_kode;
+            $id_produk = $ct;
+            $kategori = $val["kategori"];
+            $name = $val["nama_produk"];
+            $durasi = $val["durasi"];
+            $user_id = Auth::user()->id;
+            $tanggal_a = $request->date;
+            $tanggal_b = $val["tanggal_b"];
+            $jumlah = $val["jumlah"];
+            $tempat_id = $val["tempat_id"];
+
+            $subtotal = $val["harga_produk"] * $val["jumlah"] * $val["durasi"];
+            $grandtotal += $subtotal;
+            Detail_transaksi::tambah_detail_transaksi($user_id, $kategori, $tempat_id, $subtotal, $kode_tiket, $id_produk,  $jumlah, $name, $durasi, $tanggal_a, $tanggal_b);
+        }
+        // dd($tempat);
+
+
+        Tiket::create([
+            // 'token' => $token,
+            'kode' => $checkout_kode,
+            'user_id' => Auth::user()->id,
+            'name' => Auth::user()->name,
+            'email' => Auth::user()->email,
+            'telp' => Auth::user()->telp,
+            'harga' => $grandtotal,
+
+        ]);
     }
     public function getPesanan(Request $request)
     {
