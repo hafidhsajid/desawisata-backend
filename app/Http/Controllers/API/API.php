@@ -35,7 +35,7 @@ class API extends Controller
             $request->deskripsi == null ||
             $request->harga == null
         ){
-            return response()->json(array('data'=>'Failed create'));
+            return response()->json(array('data'=>'Failed create'),401);
 
         }
         $wahana  = new Wahana();
@@ -47,7 +47,7 @@ class API extends Controller
         if ($wahana->save()) {
             return response()->json(array('data'=>'Success'));
         }else{
-            return response()->json(array('data'=>'Failed create'));
+            return response()->json(array('data'=>'Failed create'),401);
         }
     }
     public function editwahana(Request $request)
@@ -58,7 +58,7 @@ class API extends Controller
             $request->deskripsi == null ||
             $request->harga == null
         ){
-            return response()->json(array('data'=>'Failed update'));
+            return response()->json(array('data'=>'Failed update'),401);
 
         }
         $wahana  = wahana::find($request->id);
@@ -70,7 +70,7 @@ class API extends Controller
         if ($wahana->save()) {
             return response()->json(array('data'=>'Success'));
         }else{
-            return response()->json(array('data'=>'Failed update'));
+            return response()->json(array('data'=>'Failed update'),401);
         }
     }
     public function deletewahana(Request $request)
