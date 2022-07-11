@@ -371,10 +371,10 @@ Route::prefix('api')->group(function () {
     Route::post('/cart/tambah', [API::class, 'addCart']);
 
     Route::get('/pesananku', [API::class, 'getPesanan']);
-    Route::get('/tiket', [API::class, 'getPesanan']);
     Route::get('/daftartransaksi', [API::class, 'getTransaksi']);
 
 
+    Route::post('/tiket', [API::class, 'getTiket']);
     Route::get('/event', [API::class, 'event']);
     Route::get('/kamar', [API::class, 'kamar']);
     Route::get('/kuliner', [API::class, 'kuliner']);
