@@ -204,7 +204,11 @@ class API extends Controller
         if ($request->id != null) {
             $tiket = Tiket::where('user_id', $request->id)->get();
             // $accessToken = auth()->user()->createToken('authToken')->accessToken;
-            return response()->json($tiket);
+            if ($tiket->count() > 0) {
+                return response()->json($tiket);
+            } else {
+                return response()->json(['data' => 'Tiket not found'], 404);
+            }
         } else {
             return response()->json(['data' => 'Login First'], 401);
         }
@@ -214,7 +218,11 @@ class API extends Controller
         if ($request->id != null) {
             $tiket = Tiket::where('user_id', $request->id)->get();
             // $accessToken = auth()->user()->createToken('authToken')->accessToken;
-            return response()->json($tiket);
+            if ($tiket->count() > 0) {
+                return response()->json($tiket);
+            } else {
+                return response()->json(['data' => 'Tiket not found'], 404);
+            }
         } else {
             return response()->json(['data' => 'Login First'], 401);
         }
