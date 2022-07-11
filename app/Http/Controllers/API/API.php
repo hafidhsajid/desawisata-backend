@@ -29,14 +29,13 @@ class API extends Controller
 
     public function createwahana(Request $request)
     {
-        if(
-            $request->name == null||
+        if (
+            $request->name == null ||
             $request->tempat_id == null ||
             $request->deskripsi == null ||
             $request->harga == null
-        ){
-            return response()->json(array('data'=>'Failed create'),401);
-
+        ) {
+            return response()->json(array('data' => 'Failed create'), 401);
         }
         $wahana  = new Wahana();
         $wahana->name = $request->name;
@@ -45,21 +44,20 @@ class API extends Controller
         $wahana->harga = $request->harga;
         $wahana->image = '7Lc8xmt78n8teJXlDUgvlOrJDVSBt4BBtDhSt2Xh.jpg';
         if ($wahana->save()) {
-            return response()->json(array('data'=>'Success'));
-        }else{
-            return response()->json(array('data'=>'Failed create'),401);
+            return response()->json(array('data' => 'Success'));
+        } else {
+            return response()->json(array('data' => 'Failed create'), 401);
         }
     }
     public function editwahana(Request $request)
     {
-        if(
-            $request->name == null||
+        if (
+            $request->name == null ||
             $request->tempat_id == null ||
             $request->deskripsi == null ||
             $request->harga == null
-        ){
-            return response()->json(array('data'=>'Failed update'),401);
-
+        ) {
+            return response()->json(array('data' => 'Failed update'), 401);
         }
         $wahana  = wahana::find($request->id);
         $wahana->name = $request->name;
@@ -68,9 +66,9 @@ class API extends Controller
         $wahana->harga = $request->harga;
         // $wahana->image = '7Lc8xmt78n8teJXlDUgvlOrJDVSBt4BBtDhSt2Xh.jpg';
         if ($wahana->save()) {
-            return response()->json(array('data'=>'Success'));
-        }else{
-            return response()->json(array('data'=>'Failed update'),401);
+            return response()->json(array('data' => 'Success'));
+        } else {
+            return response()->json(array('data' => 'Failed update'), 401);
         }
     }
     public function deletewahana(Request $request)
@@ -78,9 +76,9 @@ class API extends Controller
         $wahana  = Wahana::find($request->id);
         if ($wahana != null) {
             $wahana->delete();
-            return response()->json(array('data'=>'Success'));
-        }else{
-            return response()->json(array('data'=>'Failed create'));
+            return response()->json(array('data' => 'Success'));
+        } else {
+            return response()->json(array('data' => 'Failed create'));
         }
 
         return response()->json($wahana);
@@ -111,14 +109,12 @@ class API extends Controller
     }
     public function getCart(Request $request)
     {
-        if ($request->id!=null) {
+        if ($request->id != null) {
             $cart = session('cart');
             return response()->json($cart);
-
         } else {
-            return response()->json(['data'=>'Login First'],401);
+            return response()->json(['data' => 'Login First'], 401);
         }
-
     }
     public function addCart(Request $request)
     {
@@ -143,18 +139,16 @@ class API extends Controller
         ];
         // dd($cart);
         session(["cart" => $cart]);
-        return response()->json(['data'=>' Berhasil menambahkan ke cart :)']);
+        return response()->json(['data' => ' Berhasil menambahkan ke cart :)']);
     }
     public function getTransaksi(Request $request)
     {
-        if ($request->id!=null) {
+        if ($request->id != null) {
             $transaksi = Detail_transaksi::where('user_id', $request->id)->get();
             return response()->json($transaksi);
-
         } else {
-            return response()->json(['data'=>'Login First'],401);
+            return response()->json(['data' => 'Login First'], 401);
         }
-
     }
     public function createTransaksi(Request $request)
     {
@@ -207,67 +201,68 @@ class API extends Controller
     }
     public function getPesanan(Request $request)
     {
-        if ($request->id!=null) {
+        if ($request->id != null) {
             $tiket = Tiket::where('user_id', $request->id)->get();
             // $accessToken = auth()->user()->createToken('authToken')->accessToken;
             return response()->json($tiket);
-
         } else {
-            return response()->json(['data'=>'Login First'],401);
+            return response()->json(['data' => 'Login First'], 401);
         }
-
     }
     public function getTiket(Request $request)
     {
-        if ($request->id!=null) {
+        if ($request->id != null) {
             $tiket = Tiket::where('user_id', $request->id)->get();
             // $accessToken = auth()->user()->createToken('authToken')->accessToken;
             return response()->json($tiket);
-
         } else {
-            return response()->json(['data'=>'Login First'],401);
+            return response()->json(['data' => 'Login First'], 401);
         }
     }
     public function getTiketDetail(Request $request)
     {
-        if ($request->id!=null) {
-            if ($request->kode!=null) {
+        if ($request->id != null) {
+            if ($request->kode != null) {
                 $tiket = Tiket::where('kode', $request->kode)->get();
+                if ($tiket->count() > 0) {
+                    return response()->json($tiket);
+                } else {
+                    return response()->json(['data' => 'Tiket not found'], 404);
+                }
+
                 return response()->json($tiket);
             } else {
-                return response()->json(['data'=>'Tiket not found'],404);
+                return response()->json(['data' => 'Tiket not found'], 404);
             }
-
         } else {
-            return response()->json(['data'=>'Login First'],401);
+            return response()->json(['data' => 'Login First'], 401);
         }
     }
     public function login(Request $request)
     {
-        $login = User::where('email',$request->email)->first();
-        if ($login!=null) {
+        $login = User::where('email', $request->email)->first();
+        if ($login != null) {
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
                 // $token = $user->createToken($signInRequest->input('device_name'))->plainTextToken;
                 // $token = $login->createToken('authToken')->accessToken;
-                return response()->json(['data'=>$login]);
+                return response()->json(['data' => $login]);
             } else {
-                return response()->json(['data'=>'Failed Login'],401);
+                return response()->json(['data' => 'Failed Login'], 401);
             }
-
-        }else{
-            return response()->json(['data'=>'Email not found'],401);
+        } else {
+            return response()->json(['data' => 'Email not found'], 401);
         }
     }
     public function checkLogin()
     {
         $check = Auth::check();
-        return response()->json(['data'=>$check]);
+        return response()->json(['data' => $check]);
     }
     public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
 
-        return response()->json(array('data'=>'Loggedout'));
+        return response()->json(array('data' => 'Loggedout'));
     }
 }
