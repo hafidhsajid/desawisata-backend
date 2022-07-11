@@ -220,6 +220,17 @@ class API extends Controller
     public function getTiket(Request $request)
     {
         if ($request->id!=null) {
+            $tiket = Tiket::where('user_id', $request->id)->get();
+            // $accessToken = auth()->user()->createToken('authToken')->accessToken;
+            return response()->json($tiket);
+
+        } else {
+            return response()->json(['data'=>'Login First'],401);
+        }
+    }
+    public function getTiketDetail(Request $request)
+    {
+        if ($request->id!=null) {
             if ($request->kode!=null) {
                 $tiket = Tiket::where('kode', $request->kode)->get();
                 return response()->json($tiket);
