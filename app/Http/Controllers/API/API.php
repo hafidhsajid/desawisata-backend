@@ -231,7 +231,7 @@ class API extends Controller
     {
         if ($request->id != null) {
             if ($request->kode != null) {
-                $tiket = Tiket::where('kode', $request->kode)->get();
+                $tiket = Detail_transaksi::where('kode_tiket', $request->kode)->get();
                 if ($tiket->count() > 0) {
                     return response()->json($tiket);
                 } else {
