@@ -152,37 +152,29 @@ class API extends Controller
     }
     public function addTransaksi(Request $request)
     {
-        // $json = json_encode($request->data);
-        // $json = str_replace('&quot;', '"', $request->data);
-        // var_dump(json_decode($request->data));
         date_default_timezone_set('Asia/Jakarta');
-        $cart = session("cart");
-        // $kuliner = session("kuliner");
-        // dd($cart);
         $data = Tiket::max('id');
         $urutan = (int)($data);
         $urutan++;
         $huruf =  "LT-";
         $checkout_kode = $huruf . $urutan . uniqid();
-        // dd($request->date);
 
-        // dd($cart);
-        // $tiket = Tiket::where('user_id', $request->datauser->id)->orderby('id', 'desc')->get();
         $grandtotal = 0;
-        $user_id = $request->user_id;
-        // $tempatsesi = session("tempatsesi");
-        var_dump($request->dataproduk);
-        var_dump($request->datauser);
+        $data = json_decode($request->datauser);
+        if (!isset($data->user_id)) {
+            return response()->json(['data' => 'Login First'], 401);
+        }
+        $user_id = $data->user_id;
         foreach (json_decode($request->dataproduk) as $key) {
-            var_dump($key->nama);
+            // var_dump($key->nama);
             echo '<br>';
             $kode_tiket = $checkout_kode;
             $id_produk = $key->id;
-            $kategori = $key->id;
+            $kategori = 4;
             $name = $key->nama;
             $durasi = "1";
             $harga = $key->harga;
-            $user_id = $key->id;
+            $user_id = $data->user_id;
             $tanggal_a = $request->date;
             $tanggal_b = 0;
             $jumlah = $key->qty;
@@ -191,40 +183,30 @@ class API extends Controller
             $subtotal = $harga * $jumlah * $durasi;
             $grandtotal += $subtotal;
             $tmp = [
-                $user_id, $kategori, $tempat_id, $subtotal, $kode_tiket, $id_produk,  $jumlah, $name, $durasi, $tanggal_a, $tanggal_b
+                'user_id  :'.$user_id,
+                'kategori  :'.$kategori,
+                'tempat_id  :'.$tempat_id,
+                'subtotal  :'.$subtotal,
+                'kode_tiket  :'.$kode_tiket,
+                'id_produk  :'.$id_produk,
+                'jumlah  :'.$jumlah,
+                'name  :'.$name,
+                'durasi  :'.$durasi,
+                'tanggal_a  :'.$tanggal_a,
+                'tanggal_  :'.$tanggal_b
             ];
+            echo $kode_tiket;
             var_dump($tmp);
-            // Detail_transaksi::tambah_detail_transaksi($user_id, $kategori, $tempat_id, $subtotal, $kode_tiket, $id_produk,  $jumlah, $name, $durasi, $tanggal_a, $tanggal_b);
-        }
-        dd($request->dataproduk);
-
-        foreach ($cart as $ct => $val) {
-
-            $kode_tiket = $checkout_kode;
-            $id_produk = $ct;
-            $kategori = $val["kategori"];
-            $name = $val["nama_produk"];
-            $durasi = "1";
-            $user_id = Auth::user()->id;
-            $tanggal_a = $request->date;
-            $tanggal_b = $val["tanggal_b"];
-            $jumlah = $val["jumlah"];
-            $tempat_id = $val["tempat_id"];
-
-            $subtotal = $val["harga_produk"] * $val["jumlah"] * $val["durasi"];
-            $grandtotal += $subtotal;
             Detail_transaksi::tambah_detail_transaksi($user_id, $kategori, $tempat_id, $subtotal, $kode_tiket, $id_produk,  $jumlah, $name, $durasi, $tanggal_a, $tanggal_b);
         }
-        // dd($tempat);
-
 
         Tiket::create([
             // 'token' => $token,
             'kode' => $checkout_kode,
-            'user_id' => Auth::user()->id,
-            'name' => Auth::user()->name,
-            'email' => Auth::user()->email,
-            'telp' => Auth::user()->telp,
+            'user_id' => $data->user_id,
+            'name' => $data->name,
+            'email' => $data->email,
+            'telp' => $data->telp,
             'harga' => $grandtotal,
 
         ]);
