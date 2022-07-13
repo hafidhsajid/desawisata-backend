@@ -210,6 +210,7 @@ class API extends Controller
             'harga' => $grandtotal,
 
         ]);
+        return response()->json(['data' => ' Berhasil checkout :)']);
     }
     public function getPesanan(Request $request)
     {
