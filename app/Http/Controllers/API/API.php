@@ -167,7 +167,7 @@ class API extends Controller
         // dd($request->date);
 
         // dd($cart);
-        $tiket = Tiket::where('user_id', Auth::user()->id)->orderby('id', 'desc')->get();
+        // $tiket = Tiket::where('user_id', $request->datauser->id)->orderby('id', 'desc')->get();
         $grandtotal = 0;
         $user_id = $request->user_id;
         // $tempatsesi = session("tempatsesi");
