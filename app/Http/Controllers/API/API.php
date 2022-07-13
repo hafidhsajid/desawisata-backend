@@ -150,8 +150,11 @@ class API extends Controller
             return response()->json(['data' => 'Login First'], 401);
         }
     }
-    public function createTransaksi(Request $request)
+    public function addTransaksi(Request $request)
     {
+        // $json = json_encode($request->data);
+        // $json = str_replace('&quot;', '"', $request->data);
+        // var_dump(json_decode($request->data));
         date_default_timezone_set('Asia/Jakarta');
         $cart = session("cart");
         // $kuliner = session("kuliner");
@@ -166,7 +169,32 @@ class API extends Controller
         // dd($cart);
         $tiket = Tiket::where('user_id', Auth::user()->id)->orderby('id', 'desc')->get();
         $grandtotal = 0;
+        $user_id = $request->user_id;
         // $tempatsesi = session("tempatsesi");
+        foreach (json_decode($request->dataproduk) as $key) {
+            var_dump($key->nama);
+            echo '<br>';
+            $kode_tiket = $checkout_kode;
+            $id_produk = $key->id;
+            $kategori = $key->kategori;
+            $name = $key->nama_produk;
+            $durasi = "1";
+            $harga = $key->harga;
+            $user_id = $key->id;
+            $tanggal_a = $request->date;
+            $tanggal_b = 0;
+            $jumlah = $key->jumlah;
+            $tempat_id = $key->tempat_id;
+
+            $subtotal = $harga * $jumlah * $durasi;
+            $grandtotal += $subtotal;
+            $tmp = [
+                $user_id, $kategori, $tempat_id, $subtotal, $kode_tiket, $id_produk,  $jumlah, $name, $durasi, $tanggal_a, $tanggal_b
+            ];
+            var_dump($tmp);
+            // Detail_transaksi::tambah_detail_transaksi($user_id, $kategori, $tempat_id, $subtotal, $kode_tiket, $id_produk,  $jumlah, $name, $durasi, $tanggal_a, $tanggal_b);
+        }
+        dd($request->dataproduk);
 
         foreach ($cart as $ct => $val) {
 
@@ -174,7 +202,7 @@ class API extends Controller
             $id_produk = $ct;
             $kategori = $val["kategori"];
             $name = $val["nama_produk"];
-            $durasi = $val["durasi"];
+            $durasi = "1";
             $user_id = Auth::user()->id;
             $tanggal_a = $request->date;
             $tanggal_b = $val["tanggal_b"];

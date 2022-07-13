@@ -370,6 +370,8 @@ Route::prefix('api')->group(function () {
     Route::get('/cart', [API::class, 'getCart']);
     Route::post('/cart/tambah', [API::class, 'addCart']);
 
+    Route::post('/checkout', [API::class, 'addTransaksi']);
+
     Route::get('/pesananku', [API::class, 'getPesanan']);
     Route::get('/daftartransaksi', [API::class, 'getTransaksi']);
 
