@@ -171,20 +171,22 @@ class API extends Controller
         $grandtotal = 0;
         $user_id = $request->user_id;
         // $tempatsesi = session("tempatsesi");
+        var_dump($request->dataproduk);
+        var_dump($request->datauser);
         foreach (json_decode($request->dataproduk) as $key) {
             var_dump($key->nama);
             echo '<br>';
             $kode_tiket = $checkout_kode;
             $id_produk = $key->id;
-            $kategori = $key->kategori;
-            $name = $key->nama_produk;
+            $kategori = $key->id;
+            $name = $key->nama;
             $durasi = "1";
             $harga = $key->harga;
             $user_id = $key->id;
             $tanggal_a = $request->date;
             $tanggal_b = 0;
-            $jumlah = $key->jumlah;
-            $tempat_id = $key->tempat_id;
+            $jumlah = $key->qty;
+            $tempat_id = $key->id;
 
             $subtotal = $harga * $jumlah * $durasi;
             $grandtotal += $subtotal;
