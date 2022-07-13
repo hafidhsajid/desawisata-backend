@@ -167,7 +167,6 @@ class API extends Controller
         $user_id = $data->user_id;
         foreach (json_decode($request->dataproduk) as $key) {
             // var_dump($key->nama);
-            echo '<br>';
             $kode_tiket = $checkout_kode;
             $id_produk = $key->id;
             $kategori = 4;
@@ -195,8 +194,6 @@ class API extends Controller
                 'tanggal_a  :'.$tanggal_a,
                 'tanggal_  :'.$tanggal_b
             ];
-            echo $kode_tiket;
-            var_dump($tmp);
             Detail_transaksi::tambah_detail_transaksi($user_id, $kategori, $tempat_id, $subtotal, $kode_tiket, $id_produk,  $jumlah, $name, $durasi, $tanggal_a, $tanggal_b);
         }
 
