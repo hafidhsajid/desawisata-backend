@@ -271,6 +271,25 @@ class API extends Controller
             return response()->json(['data' => 'Email not found'], 401);
         }
     }
+    public function register(Request $request)
+    {
+        if(!isset($request->name)||!isset($request->email)||!isset($request->password)||!isset($request->telp)){
+            return response()->json(['data' => 'Gagal register'], 500);
+        }
+        $user = new User();
+        // dd($request->email);
+        $password = Hash::make($request->password);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = $password;
+        $user->telp = $request->telp;
+        if($user->save()){
+            return response()->json(['data' => 'Berhasil register']);
+        }else{
+            return response()->json(['data' => 'Gagal register']);
+        }
+        // die();
+    }
     public function checkLogin()
     {
         $check = Auth::check();
