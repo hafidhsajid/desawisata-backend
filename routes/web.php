@@ -85,7 +85,7 @@ Route::resource('/pay', PaymentController::class);
 // Route::post('/tiket/{name}', [TiketController::class, 'beli'])->name('tiket.beli');
 // Route::get('/logout2', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout2');
 
-// // Route::get('/pesananku', [App\Http\Controllers\HomeController::class, 'pesananku'])->name('pesananku');
+Route::get('/pesananku', [App\Http\Controllers\HomeController::class, 'pe/sananku'])->name('pesananku');
 
 // // ===================================
 // //Pembayaran Midrrans
@@ -385,6 +385,7 @@ Route::prefix('api')->group(function () {
     Route::get('/desa', [API::class, 'desa']);
     Route::get('/user', [API::class, 'user']);
     Route::get('/login', [API::class, 'checkLogin']);
+    Route::post('/register', [API::class, 'register']);
     Route::post('/login', [API::class, 'login']);
     Route::get('/logout', [API::class, 'logout']);
 });
