@@ -23,7 +23,9 @@ class API extends Controller
     public function wahana()
     {
         $wahana  = new Wahana();
-        $wahana  = $wahana->get();
+        $wahana  = $wahana
+        ->join('tb_tempat','tb_wahana.tempat_id','tb_tempat.id')
+        ->get();
         return response()->json($wahana);
     }
 
@@ -144,7 +146,9 @@ class API extends Controller
     public function getTransaksi(Request $request)
     {
         if ($request->id != null) {
-            $transaksi = Detail_transaksi::where('user_id', $request->id)->get();
+            $transaksi = Detail_transaksi::where('user_id', $request->id)
+
+            ->get();
             return response()->json($transaksi);
         } else {
             return response()->json(['data' => 'Login First'], 401);
