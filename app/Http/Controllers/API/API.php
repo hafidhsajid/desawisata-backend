@@ -29,6 +29,7 @@ class API extends Controller
         '*','tb_wahana.name as wahana_name'
         ,'tb_wahana.id as wahana_id'
         ,'tb_wahana.image as wahana_image'
+        ,'tb_wahana.deskripsi as wahana_deskripsi'
         ,'tb_tempat.name as tempat_name'
         ,'tb_tempat.deskripsi as tempat_deskripsi'
         ,'tb_tempat.image as tempat_image'
