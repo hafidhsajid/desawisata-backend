@@ -25,6 +25,9 @@ class API extends Controller
         $wahana  = new Wahana();
         $wahana  = $wahana
         ->join('tb_tempat','tb_wahana.tempat_id','tb_tempat.id')
+        ->select('*','tb_wahana.name as wahana_name'
+        ,'tb_tempat.name as tempat_name',
+        'tb_wahana.id as wahana_id')
         ->get();
         return response()->json($wahana);
     }
