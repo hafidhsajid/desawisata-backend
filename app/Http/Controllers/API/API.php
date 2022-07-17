@@ -182,7 +182,7 @@ class API extends Controller
             // var_dump($key->nama);
             $kode_tiket = $checkout_kode;
             $id_produk = $key->id;
-            $kategori = 4;
+            $kategori = $key->kategori;
             $name = $key->nama;
             $durasi = "1";
             $harga = $key->harga;
