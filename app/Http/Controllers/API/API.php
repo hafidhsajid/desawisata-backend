@@ -239,7 +239,10 @@ class API extends Controller
     public function getTiket(Request $request)
     {
         if ($request->id != null) {
-            $tiket = Tiket::where('user_id', $request->id)->get();
+            $tiket = Tiket::where('user_id', $request->id)
+            ->orderby('id','desc')
+            ->get()
+            ;
             // $accessToken = auth()->user()->createToken('authToken')->accessToken;
             if ($tiket->count() > 0) {
                 return response()->json($tiket);
