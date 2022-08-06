@@ -8,6 +8,7 @@ use App\Models\Event;
 use App\Models\EventBooking;
 use App\Models\Kamar;
 use App\Models\Kuliner;
+use App\Models\Tempat;
 use App\Models\Tiket;
 use App\Models\User;
 use App\Models\Wahana;
@@ -20,6 +21,17 @@ use Illuminate\Support\Str;
 class API extends Controller
 {
     //
+    public function tempat()
+    {
+        $tempat  = new Tempat();
+        $tempat  = $tempat
+        ->get();
+        foreach ($tempat as $key ) {
+            $key->wahana = Wahana::where('tempat_id',$key->id)->get();
+        }
+        $res = response()->json($tempat);
+        return $res;
+    }
     public function wahana()
     {
         $wahana  = new Wahana();

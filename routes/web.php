@@ -362,6 +362,8 @@ Route::get('/pesananku', [App\Http\Controllers\HomeController::class, 'pe/sanank
 
 
 Route::prefix('api')->group(function () {
+    Route::get('/tempat', [API::class, 'tempat']);
+
     Route::get('/wahana', [API::class, 'wahana']);
     Route::post('/wahana/create', [API::class, 'createwahana']);
     Route::post('/wahana/update', [API::class, 'editwahana']);
