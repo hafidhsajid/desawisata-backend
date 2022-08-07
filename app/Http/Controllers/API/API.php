@@ -32,6 +32,19 @@ class API extends Controller
         $res = response()->json($tempat);
         return $res;
     }
+    public function wahanabytempat($id)
+    {
+        $wahana  = new Wahana();
+        $wahana  = $wahana
+        ->where('tempat_id',$id)
+        ->get();
+        if ($wahana->count() > 0) {
+            $res = response()->json($wahana);
+        }else{
+            $res = response()->json(['message' => 'Data Tidak Ditemukan'], 404);
+        }
+        return $res;
+    }
     public function wahana()
     {
         $wahana  = new Wahana();
