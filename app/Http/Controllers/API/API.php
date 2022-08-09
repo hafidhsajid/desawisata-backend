@@ -188,6 +188,52 @@ class API extends Controller
             return response()->json(['data' => 'Login First'], 401);
         }
     }
+    public function addTiket(Request $request)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $data = Tiket::max('id');
+        $urutan = (int)($data);
+        $urutan++;
+        $huruf =  "LT-";
+        $checkout_kode = $huruf . $urutan . uniqid();
+
+        $grandtotal = 0;
+        $data = json_decode($request->datauser);
+        if (!isset($data->user_id)) {
+            return response()->json(['data' => 'Login First'], 401);
+        }
+        $user_id = $data->user_id;
+        foreach (json_decode($request->dataproduk) as $key) {
+            // var_dump($key->nama);
+            $kode_tiket = $checkout_kode;
+            $id_produk = $key->id;
+            $kategori = $key->kategori;
+            $name = $key->nama;
+            $durasi = "1";
+            $harga = $key->harga;
+            $user_id = $data->user_id;
+            $tanggal_a = $request->date;
+            $tanggal_b = 0;
+            $jumlah = $key->qty;
+            $tempat_id = $key->tempat_id;
+
+            $subtotal = $harga * $jumlah * $durasi;
+            $grandtotal += $subtotal;
+            Detail_transaksi::tambah_detail_transaksi($user_id, $kategori, $tempat_id, $subtotal, $kode_tiket, $id_produk,  $jumlah, $name, $durasi, $tanggal_a, $tanggal_b);
+        }
+
+        Tiket::create([
+            // 'token' => $token,
+            'kode' => $checkout_kode,
+            'user_id' => $data->user_id,
+            'name' => $data->name,
+            'email' => $data->email,
+            'telp' => $data->telp,
+            'harga' => $grandtotal,
+
+        ]);
+        return response()->json(['data' => ' Berhasil checkout :)']);
+    }
     public function addTransaksi(Request $request)
     {
         date_default_timezone_set('Asia/Jakarta');
@@ -215,7 +261,7 @@ class API extends Controller
             $tanggal_a = $request->date;
             $tanggal_b = 0;
             $jumlah = $key->qty;
-            $tempat_id = $key->id;
+            $tempat_id = $key->tempat_id;
 
             $subtotal = $harga * $jumlah * $durasi;
             $grandtotal += $subtotal;
