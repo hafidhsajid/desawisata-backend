@@ -25,6 +25,7 @@ class API extends Controller
     {
         $tempat  = new Tempat();
         $tempat  = $tempat
+        ->where('kategori','wisata')
         ->get();
         foreach ($tempat as $key ) {
             $key->wahana = Wahana::where('tempat_id',$key->id)->get();
