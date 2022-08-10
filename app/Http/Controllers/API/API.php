@@ -249,19 +249,19 @@ class API extends Controller
             return response()->json(['data' => 'Login First'], 401);
         }
         $user_id = $data->user_id;
-        foreach (json_decode($request->dataproduk) as $key) {
-            // var_dump($key->nama);
+        $tmp = json_decode($request->dataproduk);
+        // foreach (json_decode($request->dataproduk) as $key) {
             $kode_tiket = $checkout_kode;
-            $id_produk = $key->id;
-            $kategori = $key->kategori;
-            $name = $key->nama;
+            $id_produk = $tmp->id;
+            $kategori = $tmp->kategori;
+            $name = $tmp->nama;
             $durasi = "1";
-            $harga = $key->harga;
+            $harga = $tmp->harga;
             $user_id = $data->user_id;
             $tanggal_a = $request->date;
             $tanggal_b = 0;
-            $jumlah = $key->qty;
-            $tempat_id = $key->tempat_id;
+            $jumlah = $tmp->qty;
+            $tempat_id = $tmp->tempat_id;
 
             $subtotal = $harga * $jumlah * $durasi;
             $grandtotal += $subtotal;
@@ -279,7 +279,7 @@ class API extends Controller
                 'tanggal_  :'.$tanggal_b
             ];
             Detail_transaksi::tambah_detail_transaksi($user_id, $kategori, $tempat_id, $subtotal, $kode_tiket, $id_produk,  $jumlah, $name, $durasi, $tanggal_a, $tanggal_b);
-        }
+        // }
 
         Tiket::create([
             // 'token' => $token,
