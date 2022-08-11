@@ -25,10 +25,10 @@ class API extends Controller
     {
         $tempat  = new Tempat();
         $tempat  = $tempat
-        ->where('kategori','wisata')
-        ->get();
-        foreach ($tempat as $key ) {
-            $key->wahana = Wahana::where('tempat_id',$key->id)->get();
+            ->where('kategori', 'wisata')
+            ->get();
+        foreach ($tempat as $key) {
+            $key->wahana = Wahana::where('tempat_id', $key->id)->get();
         }
         $res = response()->json($tempat);
         return $res;
@@ -37,11 +37,11 @@ class API extends Controller
     {
         $wahana  = new Wahana();
         $wahana  = $wahana
-        ->where('tempat_id',$id)
-        ->get();
+            ->where('tempat_id', $id)
+            ->get();
         if ($wahana->count() > 0) {
             $res = response()->json($wahana);
-        }else{
+        } else {
             $res = response()->json(['message' => 'Data Tidak Ditemukan'], 404);
         }
         return $res;
@@ -50,17 +50,18 @@ class API extends Controller
     {
         $wahana  = new Wahana();
         $wahana  = $wahana
-        ->join('tb_tempat','tb_wahana.tempat_id','tb_tempat.id')
-        ->select(
-        '*','tb_wahana.name as wahana_name'
-        ,'tb_wahana.id as wahana_id'
-        ,'tb_wahana.image as wahana_image'
-        ,'tb_wahana.deskripsi as wahana_deskripsi'
-        ,'tb_tempat.name as tempat_name'
-        ,'tb_tempat.deskripsi as tempat_deskripsi'
-        ,'tb_tempat.image as tempat_image'
-        )
-        ->get();
+            ->join('tb_tempat', 'tb_wahana.tempat_id', 'tb_tempat.id')
+            ->select(
+                '*',
+                'tb_wahana.name as wahana_name',
+                'tb_wahana.id as wahana_id',
+                'tb_wahana.image as wahana_image',
+                'tb_wahana.deskripsi as wahana_deskripsi',
+                'tb_tempat.name as tempat_name',
+                'tb_tempat.deskripsi as tempat_deskripsi',
+                'tb_tempat.image as tempat_image'
+            )
+            ->get();
         return response()->json($wahana);
     }
 
@@ -183,7 +184,7 @@ class API extends Controller
         if ($request->id != null) {
             $transaksi = Detail_transaksi::where('user_id', $request->id)
 
-            ->get();
+                ->get();
             return response()->json($transaksi);
         } else {
             return response()->json(['data' => 'Login First'], 401);
@@ -205,7 +206,6 @@ class API extends Controller
         }
         $user_id = $data->user_id;
         foreach (json_decode($request->dataproduk) as $key) {
-            // var_dump($key->nama);
             $kode_tiket = $checkout_kode;
             $id_produk = $key->id;
             $kategori = $key->kategori;
@@ -251,36 +251,34 @@ class API extends Controller
         }
         $user_id = $data->user_id;
         $tmp = json_decode($request->dataproduk);
-        // foreach (json_decode($request->dataproduk) as $key) {
-            $kode_tiket = $checkout_kode;
-            $id_produk = $tmp->id;
-            $kategori = $tmp->kategori;
-            $name = $tmp->nama;
-            $durasi = "1";
-            $harga = $tmp->harga;
-            $user_id = $data->user_id;
-            $tanggal_a = $request->date;
-            $tanggal_b = 0;
-            $jumlah = $tmp->qty;
-            $tempat_id = $tmp->tempat_id;
+        $kode_tiket = $checkout_kode;
+        $id_produk = $tmp->id;
+        $kategori = $tmp->kategori;
+        $name = $tmp->nama;
+        $durasi = "1";
+        $harga = $tmp->harga;
+        $user_id = $data->user_id;
+        $tanggal_a = $request->date;
+        $tanggal_b = 0;
+        $jumlah = $tmp->qty;
+        $tempat_id = $tmp->tempat_id;
 
-            $subtotal = $harga * $jumlah * $durasi;
-            $grandtotal += $subtotal;
-            $tmp = [
-                'user_id  :'.$user_id,
-                'kategori  :'.$kategori,
-                'tempat_id  :'.$tempat_id,
-                'subtotal  :'.$subtotal,
-                'kode_tiket  :'.$kode_tiket,
-                'id_produk  :'.$id_produk,
-                'jumlah  :'.$jumlah,
-                'name  :'.$name,
-                'durasi  :'.$durasi,
-                'tanggal_a  :'.$tanggal_a,
-                'tanggal_  :'.$tanggal_b
-            ];
-            Detail_transaksi::tambah_detail_transaksi($user_id, $kategori, $tempat_id, $subtotal, $kode_tiket, $id_produk,  $jumlah, $name, $durasi, $tanggal_a, $tanggal_b);
-        // }
+        $subtotal = $harga * $jumlah * $durasi;
+        $grandtotal += $subtotal;
+        $tmp = [
+            'user_id  :' . $user_id,
+            'kategori  :' . $kategori,
+            'tempat_id  :' . $tempat_id,
+            'subtotal  :' . $subtotal,
+            'kode_tiket  :' . $kode_tiket,
+            'id_produk  :' . $id_produk,
+            'jumlah  :' . $jumlah,
+            'name  :' . $name,
+            'durasi  :' . $durasi,
+            'tanggal_a  :' . $tanggal_a,
+            'tanggal_  :' . $tanggal_b
+        ];
+        Detail_transaksi::tambah_detail_transaksi($user_id, $kategori, $tempat_id, $subtotal, $kode_tiket, $id_produk,  $jumlah, $name, $durasi, $tanggal_a, $tanggal_b);
 
         Tiket::create([
             // 'token' => $token,
@@ -312,9 +310,8 @@ class API extends Controller
     {
         if ($request->id != null) {
             $tiket = Tiket::where('user_id', $request->id)
-            ->orderby('id','desc')
-            ->get()
-            ;
+                ->orderby('id', 'desc')
+                ->get();
             // $accessToken = auth()->user()->createToken('authToken')->accessToken;
             if ($tiket->count() > 0) {
                 return response()->json($tiket);
@@ -361,7 +358,7 @@ class API extends Controller
     }
     public function register(Request $request)
     {
-        if(!isset($request->name)||!isset($request->email)||!isset($request->password)||!isset($request->telp)){
+        if (!isset($request->name) || !isset($request->email) || !isset($request->password) || !isset($request->telp)) {
             return response()->json(['data' => 'Gagal register'], 500);
         }
         $user = new User();
@@ -371,12 +368,15 @@ class API extends Controller
         $user->email = $request->email;
         $user->password = $password;
         $user->telp = $request->telp;
-        if($user->save()){
-            return response()->json(['data' => 'Berhasil register']);
-        }else{
-            return response()->json(['data' => 'Gagal register']);
+        try {
+            if ($user->save()) {
+                $login = User::where('email', $request->email)->first();
+                return response()->json(['data' => $login, 'message' => 'Berhasil register']);
+            }
+        } catch (\Throwable $th) {
+
+            return response()->json(['data' => 'Gagal register'],500);
         }
-        // die();
     }
     public function checkLogin()
     {
