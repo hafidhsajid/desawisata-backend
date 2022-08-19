@@ -18,6 +18,7 @@ class VerifyCsrfToken extends Middleware
         'api/checkout',
         'api/tiket/detail',
         'api/tiket',
+        'api/pay/*',
         'api/wahana/*'
     ];
 }
