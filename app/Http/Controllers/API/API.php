@@ -8,6 +8,7 @@ use App\Models\Event;
 use App\Models\EventBooking;
 use App\Models\Kamar;
 use App\Models\Kuliner;
+use App\Models\Pay;
 use App\Models\Tempat;
 use App\Models\Tiket;
 use App\Models\User;
@@ -393,37 +394,97 @@ class API extends Controller
 
     //payment
 
+    public function payment(Request $request)
+    {
+        \Midtrans\Config::$serverKey = 'SB-Mid-server-I6tQOt1sbfHcl9vwSHKNx6qs';
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
+        $transaction_details = array("id"=>"12","name"=> "testingtrx7",   "price"=> 190000,  "quantity"=> 1);
+        $datauser = json_decode($request->datauser);
+        $dataproduk = json_decode($request->dataproduk);
+        $items = array(
+            array(
+                'id'       => $dataproduk->id,
+                'price'    => $dataproduk->harga,
+                'quantity' => $dataproduk->qty,
+                'name'     => $dataproduk->nama,
+            )
+        );
+        $customer_details = array(
+            'first_name'       => $datauser->name,
+            'email'            => $datauser->email,
+            'phone'            => $datauser->telp,
+        );
+
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => $request->kodeTransaksi,
+                'gross_amount' => $request->total,
+            ),
+            'item_details'=> $items,
+            'customer_details' => $customer_details
+        );
+
+
+        try {
+          // Get Snap Payment Page URL
+          $paymentUrl = \Midtrans\Snap::createTransaction($params)->redirect_url;
+
+
+          // Redirect to Snap Payment Page
+          return response()->json(['data' => $paymentUrl]);
+        //   header('Location: ' . $paymentUrl);
+        }
+        catch (Exception $e) {
+          echo $e->getMessage();
+        }
+    }
+
     public function finish(Request $request)
     {
-        dd($request->all());
+        \Midtrans\Config::$serverKey = 'SB-Mid-server-I6tQOt1sbfHcl9vwSHKNx6qs';
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
 
-        $result = $request->input('result_data');
-        $result = json_decode($result);
-        dd($result);
-        // $result = json_decode($resul);
-        $kode = $result->order_id;
+        $pay = Pay::where('id',$request->id)->count();
+        $status = \Midtrans\Transaction::status($request->id);
+        echo var_dump($status);
+        if ($pay<1) {
+            Pay::create([
+                'id' => $status->order_id,
+                'status_message' => $status->status_message,
+                'order_id' => $status->order_id,
+                'payment_type' => $status->payment_type,
+                'transaction_time' => $status->transaction_time,
+                'transaction_status' => $status->transaction_status,
+                'va_bank' => $status->va_numbers[0]->bank,
+                'va_number' => $status->va_numbers[0]->va_number,
+                'kodeku' => $status->order_id
+            ]);
+        }else{
+            if ($status->transaction_status == 'settlement') {
+                $findpay = Pay::where('id',$request->id)->first();
+                $findpay->transaction_status = $status->transaction_status;
+                if ($findpay->save()) {
+                    echo 'pay update';
+                }
+                $findtiket = Tiket::where('kode',$status->order_id)->first();
+                $findtiket->status = '1';
+                if ($findtiket->save()) {
+                    echo 'tiket update';
+                }
 
-        $tiket = Tiket::where('kode', $kode)->first();
-        $tiket->status = $result->transaction_status;
-        dd($result);
-        $tiket->save;
 
-        $vt = new Veritrans;
-
-        $trans = $vt->status($kode);
-
-        $statuse = $trans->transaction_status;
-        if ($result->va_numbers[0]->bank == null) {
-            dd($result);
-        } else {
-            $bank = $result->va_numbers[0]->bank;
-            $gross_amount = $result->gross_amount;
-            $nomor = $result->bca_va_number;
-            $transaction_status = $result->transaction_status;
-            $transaction_time = $result->transaction_time;
-            $deadline = date('Y-m-d H:i:s', strtotime('+1 day', strtotime($transaction_time)));
-
-            return view('bayar_proses', compact('statuse', 'nomor', 'bank', 'tiket', 'gross_amount', 'transaction_status', 'transaction_time', 'deadline'));
+            }
         }
+
     }
 }

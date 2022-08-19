@@ -392,7 +392,8 @@ Route::prefix('api')->group(function () {
     Route::post('/login', [API::class, 'login']);
     Route::get('/logout', [API::class, 'logout']);
 
-    Route::post('/pay/finish', [API::class, 'finish']);
+    Route::get('/pay/finish', [API::class, 'finish']);
+    Route::post('/pay/payment', [API::class, 'payment']);
 });
 
 
