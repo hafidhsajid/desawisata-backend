@@ -390,4 +390,40 @@ class API extends Controller
 
         return response()->json(array('data' => 'Loggedout'));
     }
+
+    //payment
+
+    public function finish(Request $request)
+    {
+        dd($request->all());
+
+        $result = $request->input('result_data');
+        $result = json_decode($result);
+        dd($result);
+        // $result = json_decode($resul);
+        $kode = $result->order_id;
+
+        $tiket = Tiket::where('kode', $kode)->first();
+        $tiket->status = $result->transaction_status;
+        dd($result);
+        $tiket->save;
+
+        $vt = new Veritrans;
+
+        $trans = $vt->status($kode);
+
+        $statuse = $trans->transaction_status;
+        if ($result->va_numbers[0]->bank == null) {
+            dd($result);
+        } else {
+            $bank = $result->va_numbers[0]->bank;
+            $gross_amount = $result->gross_amount;
+            $nomor = $result->bca_va_number;
+            $transaction_status = $result->transaction_status;
+            $transaction_time = $result->transaction_time;
+            $deadline = date('Y-m-d H:i:s', strtotime('+1 day', strtotime($transaction_time)));
+
+            return view('bayar_proses', compact('statuse', 'nomor', 'bank', 'tiket', 'gross_amount', 'transaction_status', 'transaction_time', 'deadline'));
+        }
+    }
 }
