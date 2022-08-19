@@ -391,6 +391,8 @@ Route::prefix('api')->group(function () {
     Route::post('/register', [API::class, 'register']);
     Route::post('/login', [API::class, 'login']);
     Route::get('/logout', [API::class, 'logout']);
+
+    Route::post('/pay/finish', [API::class, 'finish']);
 });
 
 
